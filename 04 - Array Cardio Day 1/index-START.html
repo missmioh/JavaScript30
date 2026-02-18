@@ -39,27 +39,122 @@
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
 
+      const fifteen = inventors.filter(inventor => {
+        if(inventor.year >= 1500 && inventor.year < 1600)
+        return true;
+      });
+      console.table(fifteen);
+
     // Array.prototype.map()
     // 2. Give us an array of the inventors first and last names
+
+      const namesOnly = inventors.map(inventor => {
+        return inventor.first + " " + inventor.last;
+      });
+      console.log(namesOnly);
+
+      // model solution was
+      // const fullNames = inventors.map(inventor => inventor.first + ' ' + inventor.last);
 
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
 
+    const ordered = inventors.sort((a, b) => a.year - b.year);
+    console.table(ordered);
+
+      // model answer with added case for 0 (same value)
+      // (a, b) => {
+      // if (a.year > b.year) return 1;
+      // if (a.year < b.year) return -1;
+      // return 0;
+      // }
+
     // Array.prototype.reduce()
     // 4. How many years did all the inventors live all together?
 
+    const totalLifeSpan = inventors.reduce((total, currentInventor) => {
+        return total + (currentInventor.passed - currentInventor.year);
+      }, 0 );
+    console.log(totalLifeSpan);
+
     // 5. Sort the inventors by years lived
+
+    const youngestToOldest = inventors.sort((a, b) => {
+      return (a.passed - a.year) - (b.passed - b.year);
+    });
+    console.table(youngestToOldest);
+
+    // model answer would sort from oldest to youngest like so:
+   const oldest = inventors.sort(function(a, b) {
+      const lastPerson = a.passed - a.year;
+      const nextPerson = b.passed - b.year;
+      return lastPerson > nextPerson ? -1 : 1;
+    });
+    console.table(oldest);
 
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
 
+    // const category = document.querySelector('.mw-category');
+    // const links = Array.from(category.querySelectorAll('a'));
+    // const de = links
+    //            .map(link => link.textContent)
+    //            .filter(streetName => streetName.includes('de'));
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
 
+    const sortByLastName = people.sort((a, b) => {
+        if (a < b) {
+          return -1;
+        }
+        if (a > b) {
+          return 1;
+        }
+        return 0;
+    });
+
+    //equivalent to people.sort();
+
+    console.table(sortByLastName);
+
+    const alpha = people.sort((lastOne, nextOne) => {
+      const [aLast, aFirst] = lastOne.split(', ');
+      const [bLast, bFirst] = nextOne.split(', ');
+      return aLast.localeCompare(bLast);
+      // makes sure 0 is also considered
+    });
+
+    // more explicit, robust and independent from string quirks
+
+    console.log(alpha);
+
     // 8. Reduce Exercise
     // Sum up the instances of each of these
     const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+
+    const transportation = data.reduce((total, nextMean) => {
+        if (!total.includes(nextMean)) {
+          total.push(nextMean);
+          return total;
+        } else {
+          return total;
+        }
+    }, []);
+
+    console.log(transportation);
+    //clearly I understood wrong: I thought I was supposed to remove double occurrences.
+    //returns a single string instead of an array
+
+    const trnsprt = data.reduce((obj, item) => {
+      if(!obj[item]) {
+        obj[item] = 0;
+      }
+      obj[item]++;
+      return obj;
+    }, {});
+
+    console.log(trnsprt);
 
   </script>
 </body>
